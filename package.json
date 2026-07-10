@@ -1,0 +1,26 @@
+{
+  "name": "malabanan_portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+  "build:css": "npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css",
+  "watch:css": "npx @tailwindcss/cli -i ./wwwroot/css/input.css -o ./wwwroot/css/app.css --watch"
+},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Lithosfear23/portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Lithosfear23/portfolio/issues"
+  },
+  "homepage": "https://github.com/Lithosfear23/portfolio#readme",
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.3.2",
+    "tailwindcss": "^4.3.2"
+  }
+}

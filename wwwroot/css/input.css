@@ -1,0 +1,28 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,100..700;1,100..700&family=Offside&family=Pixelify+Sans:wght@400..700&display=swap');
+@import "tailwindcss";
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "IBM Plex Sans",sans-serif;
+    background: #0F172A;
+    color: #F8FAFC;
+}
+
+.font-hero {
+    font-family: "Pixelify Sans", sans-serif;
+}
+
+.font-heading {
+    font-family: "Offside", sans-serif;
+}
+
+.font-body {
+    font-family: "IBM Plex Sans", sans-serif;
+}
+
+#blazor-error-ui {
+    display:none;
+}
