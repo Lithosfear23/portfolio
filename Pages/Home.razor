@@ -1,4 +1,6 @@
-﻿@page "/"
+﻿@using System.Globalization
+@page "/"
+@inject IJSRuntime JS
 
 <PageTitle>Renz Malabanan</PageTitle>
 
@@ -183,7 +185,6 @@
 
         <p class="font-heading text-sm text-center text-blue-400 tracking-[0.3em]"> > Side Quests</p>
         
-        <!--Culprit-->
         <div class="flex flex-col mx-auto md:w-3xl lg:w-5xl rounded-2xl gap-8 bg-[#39406F]">
 
             <div class="flex justify-center pt-3">
@@ -196,7 +197,7 @@
                             text-center w-15 rounded-2xl hover:text-white
                             hover:shadow-lg cursor-pointer transition-all duration-200 hover:border-white hover:-translate-y-1 "
                              @onclick="async () => await SwitchSelectedProjectYear(year.Year)">
-                            @if (year.Selected)
+                            @if (year.Year == selectedYear)
                             {
                                 <div class="underline underline-offset-3 decoration-1 decoration-slate-300">
                                     Year @year.Year
@@ -216,125 +217,164 @@
             </div>
 
             <div class="flex flex-col justify-between py-3 px-1.25 md:px-3 gap-5">
+                @if (selectedProjectModel != null)
+                {
+                    var mediaCount = Math.Min(displayedMedia - 1, selectedProjectModel.Medias.Count);
+                    var videoMedia = selectedProjectModel.Medias.Where(t => t.IsVideo).FirstOrDefault();
+                    var videoThumb = selectedProjectModel.Medias
+                        .Where(t => t.IsVideo && t.Type == FileTypes.PNG)
+                        .FirstOrDefault();
 
-                <div class="flex flex-col md:flex-row justify-between gap-1.5 md:gap-2">
-                    <div class="mx-auto flex flex-col gap-2">
-                        <div class="flex justify-between border border-blue-400 text-blue-400 rounded-2xl py-3 px-2">
-                            <button class="flex justify-center items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                     class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-badge-left
-                                     cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M11 17h6l-4 -5l4 -5h-6l-4 5l4 5" />
-                                </svg>
-                            </button>
-                            <div class="flex justify-center">
-                                <video autoplay muted loop playsinline controls>
-                                    <source src="/projects/year 1/4 pics 1 word/4 pics 1 word - gameplay demo.mp4" type="video/mp4">
-                                </video>
-                            </div>
-                            <button class="flex justify-center items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                    class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-badge-right
-                                    cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M13 7h-6l4 5l-4 5h6l4 -5l-4 -5" />
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="flex justify-center items-center gap-5 py-3 px-2 border border-blue-400 text-blue-400 rounded-2xl">
-                            <div class="relative w-28 h-12 group cursor-pointer transition-all duration-200
-                                hover:shadow-lg hover:-translate-y-1">
-                                <img class="w-full h-full border-b border-blue-400 shadow-xl/15 shadow-sky-300"
-                                     src="/projects/year 1/4 pics 1 word/4 pics 1 word - video thumbnail.png" />
-
-                                <div class="absolute inset-0 flex items-center justify-center text-slate-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-player-play">
+                    <div class="flex flex-col md:flex-row justify-between gap-1.5 md:gap-2">
+                        <div class="mx-auto flex flex-col gap-2">
+                            <div class="flex justify-between border border-blue-400 text-blue-400 rounded-2xl py-3 px-2">
+                                <button class="flex justify-center items-center"
+                                        @onclick="async () => await SwitchSelectedProject(selectedYear, SlideDirections.Next)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-badge-left
+                                         cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
                                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                        <path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" />
+                                        <path d="M11 17h6l-4 -5l4 -5h-6l-4 5l4 5" />
                                     </svg>
+                                </button>
+                                <div class="flex justify-center">
+                                    @if (isVideoSelected)
+                                    {
+                                        <video autoplay muted loop playsinline controls>
+                                            <source src="@videoMedia?.Source">
+                                        </video>
+                                    }
+                                    else
+                                    {
+                                        <img src="@selectedProjectMedia?.Source" />
+                                    }
                                 </div>
+                                <button class="flex justify-center items-center" 
+                                        @onclick="async () => await SwitchSelectedProject(selectedYear, SlideDirections.Next)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-badge-right
+                                        cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M13 7h-6l4 5l-4 5h6l4 -5l-4 -5" />
+                                    </svg>
+                                </button>
                             </div>
-                            <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-                                 src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 1.png" />
-                            <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-                                 src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 2.png" />
-                            <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1"
-                                 src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 3.png" />
-                            <div class="relative w-28 h-12 bg-black/90 group cursor-pointer transition-all
-                                hover:shadow-lg hover:-translate-y-1">
-                                <img class="w-full h-full blur-sm"
-                                     src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 4.png" />
+                            <div class="flex justify-center items-center gap-5 py-3 px-2 border border-blue-400 text-blue-400 rounded-2xl">
+                                <div class="relative w-28 h-12 group transition-all duration-200
+                                    hover:shadow-lg hover:-translate-y-1">
+                                    <button class="relative w-full h-full cursor-pointer" @onclick="() => SwitchSelectedMedia(videoThumb.Key)">
+                                        @if (selectedProjectMedia.IsVideo)
+                                        {
+                                            <img class="w-full h-full object-cover border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                                                 src="@videoThumb?.Source" />
+                                        }
+                                        else
+                                        {
+                                            <img class="w-full h-full"
+                                                 src="@videoThumb?.Source" />
+                                        }
 
-                                <div class="absolute inset-0 flex items-center justify-center text-slate-300">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                                        class="icon icon-tabler icons-tabler-outline icon-tabler-square-plus">
-                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 12h6" />
-                                        <path d="M12 9v6" />
-                                        <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14" />
-                                    </svg>
-                                    <div class="ps-1">
-                                        1
-                                    </div>
+                                        <div class="absolute inset-0 flex items-center justify-center text-slate-300">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                 fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-player-play">
+                                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                <path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" />
+                                            </svg>
+                                        </div>
+                                    </button>
                                 </div>
+
+                                @for (int i = 0; i < mediaCount; i++)
+                                {
+                                    var media = selectedProjectModel.Medias[i];
+
+                                    if (media.Source != videoMedia?.Source && media.Source != videoThumb?.Source)
+                                    {
+                                        if (selectedProjectMedia.Key == media.Key)
+                                        {
+                                            <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                                                 hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                                                 src="@media.Source" 
+                                                 @onclick="() => SwitchSelectedMedia(media.Key)"/>
+                                            
+                                        }
+                                        else {
+                                            <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                                                 hover:-translate-y-1"
+                                                 src="@media.Source" 
+                                                 @onclick="() => SwitchSelectedMedia(media.Key)"/>
+                                        }
+                                    }
+                                }
+
+                                @if (selectedProjectModel.Medias.Count > mediaCount)
+                                {
+                                    <div class="relative w-28 h-12 bg-black/90 group cursor-pointer transition-all duration-200
+                                            hover:shadow-lg hover:-translate-y-1">
+                                        <button @onclick="() => ToggleGalleryView(true)">
+                                            <img class="w-full h-full blur-sm"
+                                                 src="@selectedProjectModel.Medias[mediaCount]" />
+
+                                            <div class="absolute inset-0 flex items-center justify-center text-slate-300">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                                     fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
+                                                     stroke-linejoin="round"
+                                                     class="icon icon-tabler icons-tabler-outline icon-tabler-square-plus">
+                                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                                    <path d="M9 12h6" />
+                                                    <path d="M12 9v6" />
+                                                    <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14" />
+                                                </svg>
+                                                <div class="ps-1">
+                                                    @(selectedProjectModel.Medias.Count - mediaCount)
+                                                </div>
+                                            </div>
+                                        </button>
+                                    </div>
+                                }
+                                
                             </div>
                         </div>
-                    </div>
-                    <div class="mx-auto flex flex-col items-center justify-center font-body
-                        text-slate-300 p-3 border border-blue-400 text-blue-400 rounded-2xl gap-3">
-                        <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Powered By: </div>
-                        <div class="flex flex-wrap justify-center gap-3">
+                        <div class="mx-auto flex flex-col items-center justify-center font-body
+                            text-slate-300 p-3 border border-blue-400 text-blue-400 rounded-2xl gap-3">
+                            <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Powered By: </div>
+                            <div class="flex flex-wrap justify-center gap-3">
+                                @foreach (var tech in selectedProjectModel.TechStack)
+                                {
+                                    <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                                        justify-center w-22 h-4 text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                                        @tech
+                                    </div>
+                                }
+                            </div>
+                            <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Status: </div>
                             <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
-                            justify-center w-22 h-4 text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                                C#
-                            </div>
-                            <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
-                            justify-center w-22 h-4 text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                                PHP
-                            </div>
-                            <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
-                            justify-center w-22 h-4 text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                                JS
+                                justify-center w-22 h-4 text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                                @selectedProjectModel.ProjectStatus
                             </div>
                         </div>
-                        <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Status: </div>
-                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
-                            justify-center w-22 h-4 text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            Finished
+                    </div>
+
+                    <div class="mx-auto flex flex-col w-full justify-center font-body text-slate-300 border border-blue-400
+                        text-blue-400 rounded-2xl p-3 gap-3">
+                        <div class="flex flex-row gap-4">
+                            <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Project Title: </div>
+                            <div>@selectedProjectModel.ProjectName</div>
+                        </div>
+                        <div class="flex flex-row max-h-[100px] gap-4">
+                            <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Project Description: </div>
+                            <div class="overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
+                                @selectedProjectModel.Description
+                            </div>
                         </div>
                     </div>
-                </div>
-                
-                <div class="mx-auto flex flex-col w-full justify-center font-body text-slate-300 border border-blue-400
-                    text-blue-400 rounded-2xl p-3 gap-3">
-                    <div class="flex flex-row gap-4">
-                        <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Project Title: </div>
-                        <div>4 Pics 1 Word</div>
-                    </div>
-                    <div class="flex flex-row max-h-[100px] gap-4">
-                        <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Project Description: </div>
-                        <div class="overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus tellus sit amet tempor sollicitudin.
-                            Vestibulum id velit vel felis vehicula malesuada in ornare orci. Aenean dapibus, est nec facilisis dignissim,
-                            velit velit semper erat, non dignissim enim tellus sit amet dui. Curabitur suscipit risus eu ex mollis,
-                            eu efficitur dui scelerisque. Vestibulum in euismod dolor. Nulla accumsan ante rutrum, lacinia massa ac,
-                            scelerisque mauris. Curabitur odio est, scelerisque sed cursus sit amet, semper vel turpis. Donec in nibh id
-                            urna ultrices aliquam sed ut purus. Mauris sit amet nulla eleifend,sodales sem sit amet, tincidunt dui. Sed
-                            nisi tortor, vehicula id venenatis ac, luctus quis turpis.
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus tellus sit amet tempor sollicitudin.
-                            Vestibulum id velit vel felis vehicula malesuada in ornare orci. Aenean dapibus, est nec facilisis dignissim,
-                            velit velit semper erat, non dignissim enim tellus sit amet dui. Curabitur suscipit risus eu ex mollis,
-                            eu efficitur dui scelerisque. Vestibulum in euismod dolor. Nulla accumsan ante rutrum, lacinia massa ac,
-                            scelerisque mauris. Curabitur odio est, scelerisque sed cursus sit amet, semper vel turpis. Donec in nibh id
-                            urna ultrices aliquam sed ut purus. Mauris sit amet nulla eleifend,sodales sem sit amet, tincidunt dui. Sed
-                            nisi tortor, vehicula id venenatis ac, luctus quis turpis.
-                        </div>
-                    </div>
-                </div>
+                }
+                else
+                {
+                    <h1 class="font-body text-3xl text-slate-300 font-bold">Nothing to display.</h1>
+                }
 
             </div>
 
@@ -359,20 +399,28 @@
 <!-- MODALS -->
 
 <!-- GALLERY -->
-@if (false)
+@if (isGalleryOpened)
 {
-    <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+    <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 transition-opacity duration-5000
+        @(isGalleryOpened ? "opacity-100" : "opacity-0 pointer-events-none")"
+        @onclick="() => ToggleGalleryView(false)">
 
-        <div class="flex flex-col bg-[#39406F] rounded-xl p-5 w-[900px] max-w-[90vw] h-[400px] gap-3 p-3">
+        <div class="flex flex-col bg-[#39406F] rounded-xl p-5 w-[900px] max-w-[90vw] h-[400px] gap-3 p-3 transition-all duration-300
+            @(isGalleryOpened
+                ? "opacity-100 scale-100"
+                : "opacity-0 scale-95")"
+            @onclick:stopPropagation>
 
-            <div button class="flex justify-end text-slate-300">
+            <button class="flex justify-end text-slate-300"
+                    @onclick="() => ToggleGalleryView(false)">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-x hover:shadow-lg hover:-translate-y-1">
+                     class="icon icon-tabler icons-tabler-outline icon-tabler-x
+                     cursor-pointer transition-all hover:shadow-lg hover:-translate-y-1">
                     <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                     <path d="M18 6l-12 12" /><path d="M6 6l12 12" />
                 </svg>
-            </div>
+            </button>
 
             <div class="flex font-body text-slate-300 text-2xl justify-center border-y">
                 Gallery
@@ -497,28 +545,39 @@
 @code {
     //Models
     private List<ProjectYears> projectYears = new();
-    private List<ProjectsModel> projectsModels = new();
+    private ProjectsModel? selectedProjectModel;
+    private ProjectMedia? selectedProjectMedia;
+
+    //Dictionaries
+    private Dictionary<int, List<ProjectsModel>> projectsModels = new();
 
     //Strings
     private string projectSelectedYear = "";
 
+    //Int
+    private int selectedYear = 0;
+    private int projectModelIndex = 0;
+    private int projectMediaIndex = 0;
+    private int displayedMedia = 0;
+
+    //Const
+    private const int MAX_DISPLAYED_MEDIA = 4;
+
     //Bool
     private bool isSelectedProjectYear = false;
+    private bool isVideoSelected = true;
+    private bool isGalleryOpened = false;
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            for (int i = 1; i < 5; i++)
-            {
-                projectYears.Add(
-                    new ProjectYears
-                    {
-                        Year = i,
-                        Selected = i == 1 ? true : false
-                    }
-                );
-            }
+            PopulateYearStore();
+            PopulateProjectStore();
+
+            var width = await JS.InvokeAsync<int>("GetWindowSize");
+
+            displayedMedia = width <= 320 ? MAX_DISPLAYED_MEDIA - 1 : MAX_DISPLAYED_MEDIA;
 
             await InvokeAsync(StateHasChanged);
         }
@@ -533,5 +592,127 @@
         }
 
         await InvokeAsync(StateHasChanged);
+    }
+
+    private void PopulateYearStore()
+    {
+        for (int i = 1; i < 5; i++)
+        {
+            projectYears.Add(
+                new ProjectYears
+                {
+                    Year = i
+                }
+            );
+        }
+
+        selectedYear = projectYears.Select(t => t.Year).FirstOrDefault();
+    }
+
+    private void PopulateProjectStore()
+    {
+        List<ProjectsModel> yearOneProjectModels = new List<ProjectsModel>
+        {
+
+            new ProjectsModel
+            {
+                Date = DateTime.TryParseExact("02-03-26", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out var date) ? date : DateTime.Today,
+                ProjectName = "4 Pics 1 Word",
+                ProjectStatus = "Complete",
+                TechStack = new List<string>
+                {
+                    "Python", "Tkinter"
+                },
+                Medias = new List<ProjectMedia>
+                {
+                    new (key: 0, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-gameplay-demo.mp4", type: FileTypes.MP4, isVideo: true),
+                    new (key: 1, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-1.png", type: FileTypes.PNG),
+                    new (key: 2, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-2.png", type: FileTypes.PNG),
+                    new (key: 3, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-3.png", type: FileTypes.PNG),
+                    new (key: 4, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-4.png", type: FileTypes.PNG),
+                    new (key: 5, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-5.png", type: FileTypes.PNG),
+                    new (key: 6, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-6.png", type: FileTypes.PNG),
+                    new (key: 7, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-video-thumb.png", type: FileTypes.PNG, isVideo: true),
+                },
+                Description = """"
+                A desktop word puzzle game developed in Python using Tkinter, inspired by the popular mobile game "4 Pics 1 Word". 
+                This was the very first complete project I built and marked the beginning of my software development journey.
+                """"
+            }
+
+        };
+
+        projectsModels = new Dictionary<int, List<ProjectsModel>>
+        {
+            {
+                1, yearOneProjectModels
+            }
+        };
+
+        if (projectsModels.TryGetValue(selectedYear, out var model)) 
+        {
+            if (model != null)
+            {
+                selectedProjectModel = model.FirstOrDefault();
+                selectedProjectMedia = selectedProjectModel.Medias.FirstOrDefault();
+            }
+        }
+
+        /*
+        Lol you don't have a DB.. Hardcoding for portfolio is fine 
+
+            foreach (var projYear in projectYears)
+        {
+            if (!projectsModels.ContainsKey(projYear.Year))
+            {
+                projectsModels.Add(projYear.Year, new());
+                }
+
+
+            }
+
+        */
+    }
+
+    public async Task SwitchSelectedProject(int year, SlideDirections direction)
+    {
+        if (projectsModels.TryGetValue(year, out var model))
+        {
+            if (model == null) return;
+
+            // -1 is to ensure that the length is accounting for index 0
+            var length = model.Count - 1;
+
+            if (direction == SlideDirections.Next) projectModelIndex++;
+            else if (direction == SlideDirections.Previous) projectModelIndex--;
+
+            // Ensures if next is pressed while at max length, slide goes back to 0
+            if (projectModelIndex > length) projectModelIndex = 0;
+            // Ensures if previous is pressed while at max length, slide goes back to 0
+            if (projectModelIndex < 0) projectModelIndex = length;
+
+            selectedProjectModel = projectsModels[year][projectModelIndex];
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void SwitchSelectedMedia(int key)
+    {
+        if (selectedProjectModel != null)
+        {
+            selectedProjectMedia = selectedProjectModel.Medias.FirstOrDefault(t => t.Key == key);
+
+            if (selectedProjectMedia.IsVideo && selectedProjectMedia.Type == FileTypes.PNG)
+                selectedProjectMedia = selectedProjectModel.Medias.FirstOrDefault();
+
+            isVideoSelected = selectedProjectMedia.IsVideo;
+        }
+    }
+
+    public void ToggleGalleryView(bool state)
+    {
+        isGalleryOpened = state;
     }
 }

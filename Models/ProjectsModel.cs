@@ -4,7 +4,9 @@
     {
         public DateTime Date { get; set; }
         public string ProjectName { get; set; } = string.Empty;
+        public List<string> TechStack { get; set; } = new();
         public string ProjectStatus { get; set; } = string.Empty;
-        public bool SelectedProject { get; set; } = false;
+        public List<ProjectMedia> Medias { get; set; } = new();
+        public string Description { get; set; } = string.Empty;
     }
 }
