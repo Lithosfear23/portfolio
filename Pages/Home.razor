@@ -313,7 +313,7 @@
                                 {
                                     <div class="relative w-28 h-12 bg-black/90 group cursor-pointer transition-all duration-200
                                             hover:shadow-lg hover:-translate-y-1">
-                                        <button @onclick="() => ToggleGalleryView(true)">
+                                        <button @onclick="() => ToggleGalleryView(true, mediaCount + 1)">
                                             <img class="w-full h-full blur-sm"
                                                  src="@selectedProjectModel.Medias[mediaCount]" />
 
@@ -401,11 +401,14 @@
 <!-- GALLERY -->
 @if (isGalleryOpened)
 {
+    var mediaCount = Math.Min(displayedMedia - 1, selectedProjectModel.Medias.Count);
+    var maxAvailableMedia = Math.Max(mediaCount + 1, selectedProjectModel.Medias.Count);
+
     <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 transition-opacity duration-5000
         @(isGalleryOpened ? "opacity-100" : "opacity-0 pointer-events-none")"
         @onclick="() => ToggleGalleryView(false)">
 
-        <div class="flex flex-col bg-[#39406F] rounded-xl p-5 w-[900px] max-w-[90vw] h-[400px] gap-3 p-3 transition-all duration-300
+        <div class="flex flex-col bg-[#39406F] rounded-xl w-[900px] max-w-[90vw] h-[400px] gap-3 p-3 transition-all duration-300
             @(isGalleryOpened
                 ? "opacity-100 scale-100"
                 : "opacity-0 scale-95")"
@@ -426,79 +429,39 @@
                 Gallery
             </div>
 
-            <div class="flex-1 overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
+            <div class="flex-1 flex flex-col md:flex-row w-full gap-3 overflow-hidden">
 
-                <div class="flex flex-wrap justify-center gap-3 p-3">
+                <!-- Viewer -->
+                <div class="flex justify-center items-center flex-1 h-full w-full md:w-5xl">
 
-                    <div class="relative overflow-hidden rounded-md group cursor-pointer transition-all
-                        hover:shadow-lg hover:-translate-y-1">
-                        <img class="max-h-[200px]"
-                             src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 4.png" />
+                    <img class="max-h-full max-w-full object-contain"
+                         src="@selectedGalleryProjectMedia.Source" />
 
-                        <div class="absolute right-0 bottom-0 flex items-center justify-center text-slate-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrows-maximize">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M16 4l4 0l0 4" /><path d="M14 10l6 -6" />
-                                <path d="M8 20l-4 0l0 -4" /><path d="M4 20l6 -6" />
-                                <path d="M16 20l4 0l0 -4" /><path d="M14 14l6 6" />
-                                <path d="M8 4l-4 0l0 4" /><path d="M4 4l6 6" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="relative overflow-hidden rounded-md group cursor-pointer transition-all
-                            hover:shadow-lg hover:-translate-y-1">
-                        <img class="max-h-[200px]"
-                             src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 5.png" />
+                </div>
 
-                        <div class="absolute right-0 bottom-0 flex items-center justify-center text-slate-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrows-maximize">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M16 4l4 0l0 4" /><path d="M14 10l6 -6" />
-                                <path d="M8 20l-4 0l0 -4" /><path d="M4 20l6 -6" />
-                                <path d="M16 20l4 0l0 -4" /><path d="M14 14l6 6" />
-                                <path d="M8 4l-4 0l0 4" /><path d="M4 4l6 6" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="relative overflow-hidden rounded-md group cursor-pointer transition-all
-                            hover:shadow-lg hover:-translate-y-1">
-                        <img class="max-h-[200px]"
-                             src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 6.png" />
+                <!-- Thumbnails -->
+                <div class="flex flex-row md:flex-col gap-3 p-3 w-75 overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
 
-                        <div class="absolute right-0 bottom-0 flex items-center justify-center text-slate-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrows-maximize">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M16 4l4 0l0 4" /><path d="M14 10l6 -6" />
-                                <path d="M8 20l-4 0l0 -4" /><path d="M4 20l6 -6" />
-                                <path d="M16 20l4 0l0 -4" /><path d="M14 14l6 6" />
-                                <path d="M8 4l-4 0l0 4" /><path d="M4 4l6 6" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="relative overflow-hidden rounded-md group cursor-pointer transition-all
-                        hover:shadow-lg hover:-translate-y-1">
-                        <img class="max-h-[200px]"
-                             src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 1.png" />
+                    @for (int i = mediaCount + 1; i < maxAvailableMedia; i++)
+                    {
+                        var media = selectedProjectModel.Medias[i];
+                        if (selectedGalleryProjectMedia.Key == selectedProjectModel.Medias[i].Key)
+                        {
+                            <img class="max-h-full max-w-full object-contain cursor-pointer transition-all duration-200 hover:shadow-lg
+                                hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                                src="@media.Source"
+                                @onclick="() => SwitchSelectedMedia(media.Key)" />
 
-                        <div class="absolute right-0 bottom-0 flex items-center justify-center text-slate-200">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round"
-                                stroke-linejoin="round" class="icon icon-tabler icons-tabler-outline icon-tabler-arrows-maximize">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M16 4l4 0l0 4" /><path d="M14 10l6 -6" />
-                                <path d="M8 20l-4 0l0 -4" /><path d="M4 20l6 -6" />
-                                <path d="M16 20l4 0l0 -4" /><path d="M14 14l6 6" />
-                                <path d="M8 4l-4 0l0 4" /><path d="M4 4l6 6" />
-                            </svg>
-                        </div>
-                    </div>
-                    
+                        }
+                        else
+                        {
+                            <img class="max-h-full max-w-full object-contain cursor-pointer transition-all duration-200 hover:shadow-lg
+                                 hover:-translate-y-1"
+                                 src="@media.Source"
+                                 @onclick="() => SwitchSelectedMedia(media.Key)" />
+                        }
+                    }
+
                 </div>
 
             </div>
@@ -547,6 +510,7 @@
     private List<ProjectYears> projectYears = new();
     private ProjectsModel? selectedProjectModel;
     private ProjectMedia? selectedProjectMedia;
+    private ProjectMedia? selectedGalleryProjectMedia;
 
     //Dictionaries
     private Dictionary<int, List<ProjectsModel>> projectsModels = new();
@@ -702,17 +666,30 @@
     {
         if (selectedProjectModel != null)
         {
-            selectedProjectMedia = selectedProjectModel.Medias.FirstOrDefault(t => t.Key == key);
+            if (!isGalleryOpened)
+            {
+                selectedProjectMedia = selectedProjectModel.Medias.FirstOrDefault(t => t.Key == key);
 
-            if (selectedProjectMedia.IsVideo && selectedProjectMedia.Type == FileTypes.PNG)
-                selectedProjectMedia = selectedProjectModel.Medias.FirstOrDefault();
+                if (selectedProjectMedia.IsVideo && selectedProjectMedia.Type == FileTypes.PNG)
+                    selectedProjectMedia = selectedProjectModel.Medias.FirstOrDefault();
 
-            isVideoSelected = selectedProjectMedia.IsVideo;
+                isVideoSelected = selectedProjectMedia.IsVideo;
+        }
+
+            else
+            {
+                selectedGalleryProjectMedia = selectedProjectModel.Medias.FirstOrDefault(t => t.Key == key);
+            }
         }
     }
 
-    public void ToggleGalleryView(bool state)
+    public void ToggleGalleryView(bool state, int key = 0)
     {
+        if (key != 0)
+        {
+            selectedGalleryProjectMedia = selectedProjectModel.Medias[key];
+        }
+
         isGalleryOpened = state;
     }
 }
