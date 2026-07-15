@@ -241,7 +241,7 @@
                                 <div class="flex justify-center">
                                     @if (isVideoSelected)
                                     {
-                                        <video autoplay muted loop playsinline controls>
+                                        <video @key="videoMedia?.Source" autoplay muted loop playsinline controls>
                                             <source src="@videoMedia?.Source">
                                         </video>
                                     }
@@ -313,9 +313,9 @@
                                 {
                                     <div class="relative w-28 h-12 bg-black/90 group cursor-pointer transition-all duration-200
                                             hover:shadow-lg hover:-translate-y-1">
-                                        <button @onclick="() => ToggleGalleryView(true, mediaCount + 1)">
+                                        <button @onclick="() => ToggleGalleryView(true, mediaCount)">
                                             <img class="w-full h-full blur-sm"
-                                                 src="@selectedProjectModel.Medias[mediaCount]" />
+                                                 src="@selectedProjectModel.Medias[mediaCount].Source" />
 
                                             <div class="absolute inset-0 flex items-center justify-center text-slate-300">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
@@ -328,7 +328,7 @@
                                                     <path d="M3 5a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-14" />
                                                 </svg>
                                                 <div class="ps-1">
-                                                    @(selectedProjectModel.Medias.Count - mediaCount)
+                                                    @((selectedProjectModel.Medias.Count - mediaCount) - 1)
                                                 </div>
                                             </div>
                                         </button>
@@ -344,7 +344,7 @@
                                 @foreach (var tech in selectedProjectModel.TechStack)
                                 {
                                     <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
-                                        justify-center w-22 h-4 text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                                        justify-center w-22 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
                                         @tech
                                     </div>
                                 }
@@ -357,18 +357,28 @@
                         </div>
                     </div>
 
-                    <div class="mx-auto flex flex-col w-full justify-center font-body text-slate-300 border border-blue-400
-                        text-blue-400 rounded-2xl p-3 gap-3">
-                        <div class="flex flex-row gap-4">
-                            <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Project Title: </div>
-                            <div>@selectedProjectModel.ProjectName</div>
+                    <div class="md:grid md:grid-cols-[180px_1fr] gap-x-4 gap-y-3
+                        border border-blue-400 rounded-2xl p-3
+                        font-body text-slate-300">
+
+                        <div class="font-bold underline">Project Title:</div>
+                        <div>@selectedProjectModel.ProjectName</div>
+
+                        <div class="font-bold underline">Project Description:</div>
+                        <div class="max-h-24 overflow-y-auto">
+                            @selectedProjectModel.Description
                         </div>
-                        <div class="flex flex-row max-h-[100px] gap-4">
-                            <div class="underline underline-offset-3 decoration-1 decoration-slate-300 font-bold">Project Description: </div>
-                            <div class="overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
-                                @selectedProjectModel.Description
-                            </div>
+
+                        <div class="font-bold underline">Project Features:</div>
+                        <div class="max-h-24 overflow-y-auto">
+                            @selectedProjectModel.Features
                         </div>
+
+                        <div class="font-bold underline">Credits:</div>
+                        <div class="max-h-24 overflow-y-auto">
+                            @selectedProjectModel.Credits
+                        </div>
+
                     </div>
                 }
                 else
@@ -402,7 +412,8 @@
 @if (isGalleryOpened)
 {
     var mediaCount = Math.Min(displayedMedia - 1, selectedProjectModel.Medias.Count);
-    var maxAvailableMedia = Math.Max(mediaCount + 1, selectedProjectModel.Medias.Count);
+    var maxAvailableMedia = selectedProjectModel.Medias.Count - 1;
+
 
     <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50 transition-opacity duration-5000
         @(isGalleryOpened ? "opacity-100" : "opacity-0 pointer-events-none")"
@@ -413,6 +424,10 @@
                 ? "opacity-100 scale-100"
                 : "opacity-0 scale-95")"
             @onclick:stopPropagation>
+
+            TEST
+            @mediaCount
+            @maxAvailableMedia
 
             <button class="flex justify-end text-slate-300"
                     @onclick="() => ToggleGalleryView(false)">
@@ -442,7 +457,7 @@
                 <!-- Thumbnails -->
                 <div class="flex flex-row md:flex-col gap-3 p-3 w-75 overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
 
-                    @for (int i = mediaCount + 1; i < maxAvailableMedia; i++)
+                    @for (int i = mediaCount; i < maxAvailableMedia; i++)
                     {
                         var media = selectedProjectModel.Medias[i];
                         if (selectedGalleryProjectMedia.Key == selectedProjectModel.Medias[i].Key)
@@ -470,40 +485,6 @@
 
     </div>
 }
-
-<!-- GALLERY BIG SINGLE VIEW -->
-@if (false)
-{
-    <div class="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-
-        <div class="flex flex-col bg-[#39406F] rounded-xl p-5 w-[900px] max-w-[90vw] md:h-[550px] gap-3 p-3">
-
-            <div button class="flex justify-end text-slate-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                     fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
-                     class="icon icon-tabler icons-tabler-outline icon-tabler-x hover:shadow-lg hover:-translate-y-1">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M18 6l-12 12" />
-                    <path d="M6 6l12 12" />
-                </svg>
-            </div>
-
-            <div class="flex font-body text-slate-300 text-2xl justify-center border-y">
-                1 of x
-            </div>
-
-            <div class="flex-1 flex items-center justify-center overflow-hidden">
-
-                <img class="max-h-full max-w-full object-contain"
-                     src="/projects/year 1/4 pics 1 word/4 pics 1 word - thumb 1.png" />
-
-            </div>
-
-        </div>
-
-    </div>
-}
-
 
 @code {
     //Models
@@ -549,11 +530,9 @@
 
     private async Task SwitchSelectedProjectYear(int year)
     {
-        foreach (var projYear in projectYears)
-        {
-            if (projYear.Year == year) projYear.Selected = true;
-            else projYear.Selected = false;
-        }
+        selectedYear = year;
+
+        await SwitchSelectedProject(selectedYear, SlideDirections.None);
 
         await InvokeAsync(StateHasChanged);
     }
@@ -575,13 +554,13 @@
 
     private void PopulateProjectStore()
     {
+        DateTime date;
         List<ProjectsModel> yearOneProjectModels = new List<ProjectsModel>
         {
-
             new ProjectsModel
             {
-                Date = DateTime.TryParseExact("02-03-26", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
-                out var date) ? date : DateTime.Today,
+                Date = DateTime.TryParseExact("06-22", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
                 ProjectName = "4 Pics 1 Word",
                 ProjectStatus = "Complete",
                 TechStack = new List<string>
@@ -600,17 +579,59 @@
                     new (key: 7, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-video-thumb.png", type: FileTypes.PNG, isVideo: true),
                 },
                 Description = """"
-                A desktop word puzzle game developed in Python using Tkinter, inspired by the popular mobile game "4 Pics 1 Word". 
-                This was the very first complete project I built and marked the beginning of my software development journey.
+                A desktop word puzzle game developed in Python using Tkinter, inspired by the popular mobile game 4 Pics 1 Word. This was the first complete software project I built and marked the beginning of my software development journey.        
+                """",
+                Features = """"
+                The game features 50 handcrafted levels, a coin system with Hint and Skip Level mechanics, randomized on-screen keyboards, loading and credits screens, fullscreen support, and a simple New Game+ mode that loops back to Level 1 after completion.
+                """",
+                Credits = """"
+                Sound effects by Pixabay, background music by Chillpeach, with selected logo and image assets from Frank Cone, Daniel Nettesheim, Brett Sayles, and Google.
                 """"
             }
+        };
 
+        List<ProjectsModel> yearTwoProjectModels = new List<ProjectsModel>
+        {
+            new ProjectsModel
+            {
+                Date = DateTime.TryParseExact("11-23", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                ProjectName = "Chains of Money",
+                ProjectStatus = "Unfinished",
+                TechStack = new List<string>
+                {
+                    "C#", "Windows Forms"
+                },
+                Medias = new List<ProjectMedia>
+                {
+                    new (key: 0, source: "/projects/year-2/chains-of-money/chains-of-money-gameplay-demo.mp4", type: FileTypes.MP4, isVideo: true),
+                    new (key: 1, source: "/projects/year-2/chains-of-money/chains-of-money-thumb-1.png", type: FileTypes.PNG),
+                    new (key: 2, source: "/projects/year-2/chains-of-money/chains-of-money-thumb-2.png", type: FileTypes.PNG),
+                    new (key: 3, source: "/projects/year-2/chains-of-money/chains-of-money-thumb-3.png", type: FileTypes.PNG),
+                    new (key: 4, source: "/projects/year-2/chains-of-money/chains-of-money-thumb-4.png", type: FileTypes.PNG),
+                    new (key: 5, source: "/projects/year-2/chains-of-money/chains-of-money-thumb-5.png", type: FileTypes.PNG),
+                    new (key: 6, source: "/projects/year-2/chains-of-money/chains-of-money-video-thumb.png", type: FileTypes.PNG, isVideo: true),
+                },
+                Description = """"
+                A 2D desktop boxing game developed in C# using Windows Forms. This was my first major C# project and marked my transition from Python to C#, where I learned the fundamentals of object-oriented programming, timers, and event-driven development.
+                """",
+
+                Features = """"
+                The game features AI-controlled opponents, round-based boxing matches with health and stamina systems, a ranking screen, settings menu, custom pixel-art animations, and handcrafted game assets created during development.
+                """",
+                Credits = """"
+                Background music and selected audio/image assets belong to their respective creators. The boxer sprites, animations, logo, and several in-game visual assets were designed and created by our team.
+                """",
+            }
         };
 
         projectsModels = new Dictionary<int, List<ProjectsModel>>
         {
             {
                 1, yearOneProjectModels
+            },
+            {
+                2, yearTwoProjectModels
             }
         };
 
@@ -650,6 +671,7 @@
 
             if (direction == SlideDirections.Next) projectModelIndex++;
             else if (direction == SlideDirections.Previous) projectModelIndex--;
+            else if (direction == SlideDirections.None) projectModelIndex = 0;
 
             // Ensures if next is pressed while at max length, slide goes back to 0
             if (projectModelIndex > length) projectModelIndex = 0;
@@ -657,6 +679,8 @@
             if (projectModelIndex < 0) projectModelIndex = length;
 
             selectedProjectModel = projectsModels[year][projectModelIndex];
+
+            SwitchSelectedMedia(0);
 
             await InvokeAsync(StateHasChanged);
         }
@@ -674,8 +698,7 @@
                     selectedProjectMedia = selectedProjectModel.Medias.FirstOrDefault();
 
                 isVideoSelected = selectedProjectMedia.IsVideo;
-        }
-
+            }
             else
             {
                 selectedGalleryProjectMedia = selectedProjectModel.Medias.FirstOrDefault(t => t.Key == key);

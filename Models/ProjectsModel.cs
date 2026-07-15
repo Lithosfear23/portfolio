@@ -8,5 +8,6 @@
         public string ProjectStatus { get; set; } = string.Empty;
         public List<ProjectMedia> Medias { get; set; } = new();
         public string Description { get; set; } = string.Empty;
+        public string Credits { get; set; } = string.Empty;
     }
 }

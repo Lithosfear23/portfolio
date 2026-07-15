@@ -3,6 +3,7 @@
     public enum SlideDirections
     {
         Next,
-        Previous
+        Previous,
+        None
     }
 }
