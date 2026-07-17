@@ -28,7 +28,7 @@
         <p class="font-heading text-sm text-center md:text-start text-blue-400 tracking-[0.3em]"> > Loading player 016...</p>
 
         <div class="text-center md:text-start">
-            <h1 class="inline-block font-hero text-5xl sm:text-6xl md:text-7xl uppercase">Renz Malabanan</h1>
+            <h1 class="inline-block font-hero text-5xl sm:text-6xl md:text-7xl uppercase px-2">Renz Malabanan</h1>
         </div>
 
 
@@ -147,7 +147,7 @@
     id="projects"
     class="min-h-screen flex flex-col md:flex-row justify-center items-center py-16">
 
-    <div class="w-full max-w-7xl space-y-8">
+    <div class="w-full max-w-6xl space-y-8">
         
         <p class="font-heading text-sm text-center md:text-start text-blue-400 tracking-[0.3em]"> > Completed Quests</p>
 
@@ -159,26 +159,230 @@
 
         <p class="font-heading text-sm text-center text-blue-400 tracking-[0.3em]"> > Main Quest</p>
 
-        <div class="text-center">
+        <div class="flex items-center justify-center">
+            <div class="w-fit p-4">
 
-            <h1 class="inline-block font-body text-slate-300 text-5xl uppercase">PlanterAid</h1>
-
+                <h1 class="inline-block font-body text-slate-300 text-3xl
+                    duration-200 hover:shadow-lg
+                    hover:-translate-y-1 border-b border-blue-400 shadow-xl/50  shadow-sky-500
+                    md:text-4xl uppercase font-bold">PlanterAid</h1>
+            </div>
         </div>
 
         <div class="flex flex-col items-center text-start font-body text-slate-300 text-lg space-y-3 leading-6 px-3">
 
-            <img class="border border-blue-400 rounded-2xl"
-                 src="/practicum/2021151532 - Malabanan, Renz Bryle.png" />
+            <div class="flex flex-col gap-3 rounded-2xl py-3 px-2">
 
+                <div class="flex justify-between border border-blue-400 text-blue-400 rounded-2xl py-3 px-2">
+                    <button class="flex justify-center items-center"
+                            @onclick="async () => await SwitchSelectedProject(selectedYear, SlideDirections.Next)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-badge-left
+                                             cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M11 17h6l-4 -5l4 -5h-6l-4 5l4 5" />
+                        </svg>
+                    </button>
+                    <div class="flex justify-center">
+                        @if (isVideoSelected)
+                        {
+                            <video @key="selectedProjectMedia?.Source" autoplay muted loop playsinline controls>
+                                <source src="@selectedProjectMedia?.Source">
+                            </video>
+                        }
+                        else
+                        {
+                            <img src="@selectedProjectMedia?.Source" />
+                        }
+                    </div>
+                    <button class="flex justify-center items-center"
+                            @onclick="async () => await SwitchSelectedProject(selectedYear, SlideDirections.Next)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24"
+                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                             class="icon icon-tabler icons-tabler-outline icon-tabler-arrow-badge-right
+                                            cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-1">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                            <path d="M13 7h-6l4 5l-4 5h6l4 -5l-4 -5" />
+                        </svg>
+                    </button>
+                </div>
 
-            <div>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus tellus sit amet tempor sollicitudin.
-                Vestibulum id velit vel felis vehicula malesuada in ornare orci. Aenean dapibus, est nec facilisis dignissim,
-                velit velit semper erat, non dignissim enim tellus sit amet dui. Curabitur suscipit risus eu ex mollis,
-                eu efficitur dui scelerisque. Vestibulum in euismod dolor. Nulla accumsan ante rutrum, lacinia massa ac,
-                scelerisque mauris. Curabitur odio est, scelerisque sed cursus sit amet, semper vel turpis. Donec in nibh id
-                urna ultrices aliquam sed ut purus. Mauris sit amet nulla eleifend,sodales sem sit amet, tincidunt dui. Sed
-                nisi tortor, vehicula id venenatis ac, luctus quis turpis.
+                <div class="flex gap-2 text-blue-400 rounded-2xl overflow-y-hidden overflow-x-auto py-4 ">
+                    <div class="relative w-28 h-12 group transition-all duration-200
+                                    hover:shadow-lg hover:-translate-y-1">
+                        <button class="relative w-full h-full cursor-pointer" @onclick="() => SwitchSelectedMedia(0)">
+                            @if (isVideoSelected)
+                            {
+                                <img class="w-full h-full object-cover border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                                     src="@selectedProjectModel?.Medias?[1].Source" />
+                            }
+                            else
+                            {
+                                <img class="w-full h-full"
+                                     src="@selectedProjectModel?.Medias?[1].Source" />
+                            }
+
+                            <div class="absolute inset-0 flex items-center justify-center text-slate-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-player-play">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" />
+                                </svg>
+                            </div>
+                        </button>
+                    </div>
+
+                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                         src="@selectedProjectModel?.Medias?[1].Source"
+                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
+                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                         src="@selectedProjectModel?.Medias?[1].Source"
+                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
+                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                         src="@selectedProjectModel?.Medias?[1].Source"
+                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
+                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                         src="@selectedProjectModel?.Medias?[1].Source"
+                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
+                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                         src="@selectedProjectModel?.Medias?[1].Source"
+                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
+                
+                </div>
+            </div>
+
+            <div class="md:grid md:grid-cols-[180px_1fr] gap-x-4 gap-y-3
+                        border border-blue-400 rounded-2xl p-3 font-body text-slate-300">
+
+                <div class="font-bold underline">Description:</div>
+
+                    <div>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus tellus sit amet tempor sollicitudin.
+                        Vestibulum id velit vel felis vehicula malesuada in ornare orci. Aenean dapibus, est nec facilisis dignissim,
+                        velit velit semper erat, non dignissim enim tellus sit amet dui. Curabitur suscipit risus eu ex mollis,
+                        eu efficitur dui scelerisque. Vestibulum in euismod dolor. Nulla accumsan ante rutrum, lacinia massa ac,
+                        scelerisque mauris. Curabitur odio est, scelerisque sed cursus sit amet, semper vel turpis. Donec in nibh id
+                        urna ultrices aliquam sed ut purus. Mauris sit amet nulla eleifend,sodales sem sit amet, tincidunt dui. Sed
+                        nisi tortor, vehicula id venenatis ac, luctus quis turpis.
+                    </div>
+
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-2 font-body text-slate-300">
+
+                <div class="flex flex-col md:w-[350px] md:max-h-[400px] gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
+
+                    <div class="text-2xl text-center font-bold">
+                        Features
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-3">
+
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            feature A
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            feature B
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            feature C
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            feature D
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            feature E
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            feature F
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="flex flex-col md:w-[350px] md:max-h-[400px] gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
+
+                    <div class="text-2xl text-center font-bold">
+                        Powered By
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-3">
+
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            tech stack
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            tech stack
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            tech stack
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            tech stack
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            tech stack
+                        </div>
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            tech stack
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="flex flex-col md:w-[350px] md:max-h-[400px] gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
+
+                    <div class="text-2xl text-center font-bold">
+                        Status
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-3">
+
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            COMPLETE
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="flex flex-col md:w-[350px] md:max-h-[400px] gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
+
+                    <div class="text-2xl text-center font-bold">
+                        Date Accomplished
+                    </div>
+
+                    <div class="flex flex-wrap justify-center gap-3">
+
+                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                            @DateTime.Today.Date
+                        </div>
+
+                    </div>
+
+                </div>
+                
+                
+                
             </div>
 
         </div>
