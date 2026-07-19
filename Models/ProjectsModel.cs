@@ -9,6 +9,7 @@
         public List<ProjectMedia> Medias { get; set; } = new();
         public string Description { get; set; } = string.Empty;
         public string Features { get; set; } = string.Empty;
+        public List<string> FeaturesList { get; set; } = new();
         public string Credits { get; set; } = string.Empty;
     }
 }

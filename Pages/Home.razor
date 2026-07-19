@@ -28,15 +28,13 @@
         <p class="font-heading text-sm text-center md:text-start text-blue-400 tracking-[0.3em]"> > Loading player 016...</p>
 
         <div class="text-center md:text-start">
-            <h1 class="inline-block font-hero text-5xl sm:text-6xl md:text-7xl uppercase px-2">Renz Malabanan</h1>
+            <h1 class="inline-block font-hero text-5xl sm:text-6xl md:text-7xl uppercase px-2 md:px-0">@heroModel?.HeroName</h1>
         </div>
 
+        <p class="font-heading text-xl text-blue-400 text-center md:text-start uppercase tracking-[0.3em]">@heroModel?.HeroTitle</p>
 
-        <p class="font-heading text-xl text-blue-400 text-center md:text-start uppercase tracking-[0.3em]">Full-stack .NET Developer</p>
-
-        <p class="font-body text-center md:text-start text-lg leading-6 text-slate-300">
-            Building modern web applications, <br/>
-            IoT Systems, and interactive experience
+        <p class="font-body text-center md:text-start text-lg leading-6 text-slate-300 break-nromal px-3 md:px-0">
+            @heroModel?.HeroDescription
         </p>
 
         <div class="flex flex-row justify-center md:justify-start gap-3 mt-8">
@@ -49,7 +47,7 @@
             </a>
 
             <a 
-                href="/practicum/Resume - Malabanan_Renz_Bryle_M.pdf"
+                href="/hero/hero-resume-malabanan.pdf"
                 target="_blank"
                class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)]  hover:-translate-y-1
                 py-3 px-3 rounded-md transition-all duration-200">
@@ -64,7 +62,7 @@
 
         <img 
             class="border border-blue-400 rounded-2xl"
-            src="/practicum/2021151532 - Malabanan, Renz Bryle.png" />
+            src="@heroModel?.HeroImage" />
 
     </div>
 
@@ -86,56 +84,41 @@
         </div>
 
         <div class="max-w-3xl mx-auto text-center font-body text-slate-300 text-lg space-y-3 leading-6">
+            @if (aboutModel != null)
+            {
+                @foreach (var description in aboutModel.DescriptionParagraphs)
+                {
+                    <div class="px-3">
+                        @description
+                    </div>
+                }
 
-            <div>
-                I am a fourth-year Information Technology student specializing in the Internet of Things (IoT),
-                with a passion for building modern web applications and connected systems.
-            </div>
-            <div>
-                I enjoy exploring game mechanics, understanding how systems work under the hood,
-                and developing applications that combine functionality with an intuitive user experience.
-            </div>
-
-            <div class="font-heading text-sm text-center text-blue-400 tracking-[0.3em] pt-8">
-                > Skills Unlocked:
-            </div>
-            <div class="flex flex-wrap items-center justify-center gap-4">
-
-                <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 flex items-center justify-center
-                    w-30 h-8 text-center rounded-md font-body transition-all duration-200">
-                    C#
-                </div>
-                <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 flex items-center justify-center
-                    w-30 h-8 text-center rounded-md font-body transition-all duration-200">
-                    Kotlin
-                </div>
-                <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 flex items-center justify-center
-                    w-30 h-8 text-center rounded-md font-body transition-all duration-200">
-                    PHP
-                </div>
-                <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 flex items-center justify-center
-                    w-30 h-8 text-center rounded-md font-body transition-all duration-200">
-                    Tailwind
-                </div>
-                <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center justify-center
-                    w-30 h-8 text-center rounded-md font-body transition-all duration-200">
-                    SQL
-                </div>
-                <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center justify-center
-                    w-30 h-8 text-center rounded-md font-body transition-all duration-200">
-                    .NET Blazor
-                </div>
-                <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center justify-center
-                    w-30 h-8 text-center rounded-md font-body px-2 transition-all duration-200">
-                    RESTful API
-                </div>
-                <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center justify-center
-                    w-30 h-8 text-center rounded-md font-body transition-all duration-200">
-                    IoT
+                <div class="font-heading text-sm text-center text-blue-400 tracking-[0.3em] pt-8">
+                    > Skills Unlocked:
                 </div>
 
-            </div>
-
+                <div class="flex flex-wrap items-center justify-center gap-4">
+                    @foreach (var skill in aboutModel.Skills)
+                    {
+                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 flex items-center justify-center
+                             w-30 h-8 text-center rounded-md font-body transition-all duration-200">
+                            @skill
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div>
+                    Nothing to display.
+                </div>
+                <div class="font-heading text-sm text-center text-blue-400 tracking-[0.3em] pt-8">
+                    > Skills Unlocked:
+                </div>
+                <div>
+                    Nothing to display.
+                </div>
+            }
         </div>
 
     </div>
@@ -185,15 +168,15 @@
                         </svg>
                     </button>
                     <div class="flex justify-center">
-                        @if (isVideoSelected)
+                        @if (isCapstoneVideoSelected)
                         {
-                            <video @key="selectedProjectMedia?.Source" autoplay muted loop playsinline controls>
-                                <source src="@selectedProjectMedia?.Source">
+                            <video @key="selectedCapstoneProjectMedia?.Source" autoplay muted loop playsinline controls>
+                                <source src="@selectedCapstoneProjectMedia?.Source">
                             </video>
                         }
                         else
                         {
-                            <img src="@selectedProjectMedia?.Source" />
+                            <img src="@selectedCapstoneProjectMedia?.Source" />
                         }
                     </div>
                     <button class="flex justify-center items-center"
@@ -209,51 +192,53 @@
                 </div>
 
                 <div class="flex gap-2 text-blue-400 rounded-2xl overflow-y-hidden overflow-x-auto py-4 ">
-                    <div class="relative w-28 h-12 group transition-all duration-200
-                                    hover:shadow-lg hover:-translate-y-1">
-                        <button class="relative w-full h-full cursor-pointer" @onclick="() => SwitchSelectedMedia(0)">
-                            @if (isVideoSelected)
-                            {
-                                <img class="w-full h-full object-cover border-b border-blue-400 shadow-xl/15 shadow-sky-300"
-                                     src="@selectedProjectModel?.Medias?[1].Source" />
-                            }
-                            else
-                            {
-                                <img class="w-full h-full"
-                                     src="@selectedProjectModel?.Medias?[1].Source" />
-                            }
+                    @foreach (var media in capstoneProjectModel.Medias.OrderByDescending(t => t.IsVideo))
+                    {
+                        var isVideoThumb = media.IsVideo && media.Type == FileTypes.PNG;
 
-                            <div class="absolute inset-0 flex items-center justify-center text-slate-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                        fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-player-play">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                    <path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" />
-                                </svg>
+                        if (isVideoThumb)
+                        {
+                            <div class="relative w-28 h-12 group transition-all duration-200
+                                        hover:shadow-lg hover:-translate-y-1">
+                                <button class="relative w-full h-full cursor-pointer" @onclick="() => SwitchCapstoneMedia(media.Key)">
+                                    @if (isCapstoneVideoSelected)
+                                    {
+                                        <img class="w-full h-full object-cover border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                                             src="@media.Source" />
+                                    }
+                                    else
+                                    {
+                                        <img class="w-full h-full"
+                                             src="@media.Source" />
+                                    }
+
+                                    <div class="absolute inset-0 flex items-center justify-center text-slate-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                             fill="currentColor" class="icon icon-tabler icons-tabler-filled icon-tabler-player-play">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M6 4v16a1 1 0 0 0 1.524 .852l13 -8a1 1 0 0 0 0 -1.704l-13 -8a1 1 0 0 0 -1.524 .852z" />
+                                        </svg>
+                                    </div>
+                                </button>
                             </div>
-                        </button>
-                    </div>
-
-                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
-                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
-                         src="@selectedProjectModel?.Medias?[1].Source"
-                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
-                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
-                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
-                         src="@selectedProjectModel?.Medias?[1].Source"
-                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
-                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
-                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
-                         src="@selectedProjectModel?.Medias?[1].Source"
-                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
-                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
-                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
-                         src="@selectedProjectModel?.Medias?[1].Source"
-                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
-                    <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
-                         hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
-                         src="@selectedProjectModel?.Medias?[1].Source"
-                         @onclick="() => SwitchSelectedMedia(selectedProjectMedia.Key)" />
-                
+                        }
+                        else if (!media.IsVideo && media.Type == FileTypes.PNG)
+                        {
+                            @if (media.Key == selectedCapstoneProjectMedia?.Key)
+                            {
+                                <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                                     hover:-translate-y-1 border-b border-blue-400 shadow-xl/15 shadow-sky-300"
+                                     src="@media.Source"
+                                     @onclick="() => SwitchCapstoneMedia(media.Key)" />
+                            }
+                            else {
+                                <img class="w-28 h-12 cursor-pointer transition-all duration-200 hover:shadow-lg
+                                     hover:-translate-y-1"
+                                     src="@media.Source"
+                                     @onclick="() => SwitchCapstoneMedia(media.Key)" />
+                            }
+                        }
+                    }
                 </div>
             </div>
 
@@ -262,126 +247,88 @@
 
                 <div class="font-bold underline">Description:</div>
 
-                    <div>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus tellus sit amet tempor sollicitudin.
-                        Vestibulum id velit vel felis vehicula malesuada in ornare orci. Aenean dapibus, est nec facilisis dignissim,
-                        velit velit semper erat, non dignissim enim tellus sit amet dui. Curabitur suscipit risus eu ex mollis,
-                        eu efficitur dui scelerisque. Vestibulum in euismod dolor. Nulla accumsan ante rutrum, lacinia massa ac,
-                        scelerisque mauris. Curabitur odio est, scelerisque sed cursus sit amet, semper vel turpis. Donec in nibh id
-                        urna ultrices aliquam sed ut purus. Mauris sit amet nulla eleifend,sodales sem sit amet, tincidunt dui. Sed
-                        nisi tortor, vehicula id venenatis ac, luctus quis turpis.
+                    <div class="leading-6">
+                        @capstoneProjectModel.Description
                     </div>
 
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto pt-2 font-body text-slate-300">
 
-                <div class="flex flex-col md:w-[350px] md:max-h-[400px] gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
+                <div class="flex flex-col md:w-[350px] gap-3 rounded-2xl scrollbar-thin
+                    py-3 px-2 border border-blue-400 overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
 
                     <div class="text-2xl text-center font-bold">
                         Features
                     </div>
 
                     <div class="flex flex-wrap justify-center gap-3">
-
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            feature
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            feature
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            feature
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            feature
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            feature
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            feature
-                        </div>
-
+                        @foreach (var feature in capstoneProjectModel.FeaturesList)
+                        {
+                            <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
+                                justify-center w-auto h-auto p-2 text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                                @feature
+                            </div>
+                        }
                     </div>
 
                 </div>
-                <div class="flex flex-col md:w-[350px] md:max-h-[400px] gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
+                <div class="flex flex-col md:w-[350px] gap-3 rounded-2xl scrollbar-thin
+                    py-3 px-2 border border-blue-400 overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
 
                     <div class="text-2xl text-center font-bold">
                         Powered By
                     </div>
 
                     <div class="flex flex-wrap justify-center gap-3">
+                        @foreach (var tech in capstoneProjectModel.TechStack)
+                        {
+                            <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
+                                justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
+                                @tech
+                            </div>
+                        }
+                    </div>
 
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            tech stack
+                </div>
+                <div class="flex items-center justify-center">
+                    <div class="flex flex-col md:w-30 md:max-h-30 gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
+
+                        <div class="text-2xl text-center font-bold">
+                            Status
                         </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            tech stack
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            tech stack
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            tech stack
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            tech stack
-                        </div>
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            tech stack
+
+                        <div class="flex flex-wrap justify-center gap-3">
+
+                            <div class="bg-green-500 hover:bg-green-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
+                            justify-center w-30 h-5 text-center rounded-md font-body cursor-pointer transition-all duration-200 uppercase">
+                                @capstoneProjectModel.ProjectStatus
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
-                <div class="flex flex-col md:w-[350px] md:max-h-[400px] gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
+                <div class="flex items-center justify-center">
+                    <div class="flex flex-col md:w-50 md:max-h-35 gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
 
-                    <div class="text-2xl text-center font-bold">
-                        Status
-                    </div>
+                        <div class="text-2xl text-center font-bold">
+                            Completed On
+                        </div>
 
-                    <div class="flex flex-wrap justify-center gap-3">
+                        <div class="flex flex-wrap justify-center gap-3">
 
-                        <div class="bg-blue-500 hover:bg-blue-400 hover:shadow-lg hover:-translate-y-1 text-white flex items-center
-                        justify-center w-30 h-auto text-center rounded-md font-body cursor-pointer transition-all duration-200">
-                            COMPLETE
+                            <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
+                            justify-center w-35 h-5 text-center rounded-md font-body px-1 cursor-pointer transition-all duration-200">
+                                @capstoneProjectModel.Date.ToString("MMMM yyyy")
+                            </div>
+
                         </div>
 
                     </div>
 
                 </div>
-                <div class="flex flex-col md:w-[350px] md:max-h-[400px] gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto">
-
-                    <div class="text-2xl text-center font-bold">
-                        Date Accomplished
-                    </div>
-
-                    <div class="flex flex-wrap justify-center gap-3">
-
-                        <div class="border border-blue-400 hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 text-white flex items-center
-                        justify-center w-35 h-auto text-center rounded-md font-body px-1 cursor-pointer transition-all duration-200">
-                            June 24, 2026
-                        </div>
-
-                    </div>
-
-                </div>
-                
-                
                 
             </div>
 
@@ -617,100 +564,57 @@
 
         <div class="flex flex-col mx-auto md:w-3xl lg:w-5xl rounded-2xl gap-8 border border-blue-400">
 
-            <div class="flex flex-col max-h-125 md:flex-row justify-between py-3 px-1.25 md:px-3 gap-5">
+            <div class="flex flex-col max-h-125 md:flex-row justify-between py-3 px-2 md:px-3 gap-5">
                 
-                <div class="flex flex-col gap-3 w-75 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scroll-smooth pe-3">
-                    
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1 bg-blue-500/10 font-semibold border-l-2 border-blue-400">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                    <div class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
-                        hover:-translate-y-1">
-                        Apr 2026 - Jul 2026
-                    </div>
-                        
+                <div class="flex flex-col gap-3 md:w-75 h-60 md:h-full overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scroll-smooth pe-3">         
+                    @foreach (var careerLog in careerLogsModels.Values.OrderByDescending(t => t.EndDate))
+                    {
+                        var startDate = careerLog.StartDate.ToString("MMM yyyy");
+                        var endDate = careerLog.EndDate.ToString("MMM yyyy");
+
+                        @if (careerLog.Key == selectedCareerLogsModel?.Key)
+                        {
+                            <button class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3 
+                                    hover:-translate-y-1 bg-blue-500/10 font-semibold border-l-2 border-blue-400"
+                                    @onclick="() => SwitchSelectedCareer(careerLog.Key)">
+                                @startDate - @endDate
+                            </button>
+                        }
+                        else
+                        {
+                            <button class="cursor-pointer transition-all duration-200 hover:shadow-lg ps-3
+                                    hover:-translate-y-1 bg-blue-500/10"
+                                    @onclick="() => SwitchSelectedCareer(careerLog.Key)">
+                                @startDate - @endDate
+                            </button>
+                        }
+                    }
                 </div>
+
                 <div class="flex flex-1 flex-col items-center gap-4 overflow-y-auto scrollbar-thin scrollbar-thumb-blue-400 scroll-smooth px-3">
                     <div>
-                        <img class="w-full max-h-24 object-cover" src="/company/kooapps/kooapps-logo.png" />
+                        <img class="w-full max-h-24 object-cover" src="@selectedCareerLogsModel?.Logo" />
                     </div>
 
                     <div class="text-[11px] text-slate-400/60 text-center">
-                        Logo © KooApps Philippines Corporation. Used for identification purposes only.
+                        Logo © @selectedCareerLogsModel?.Company. Used for identification purposes only.
                     </div>
 
                     <div class="mt-5">
                         <div class="font-heading text-center font-bold text-3xl">
-                            Kooapps Philippines Corporation
+                            @selectedCareerLogsModel?.Company
                         </div>
                         <div class="font-body text-center font-bold underline underline-offset-3 decoration-1 
                             decoration-slate-300 text-xl pt-1">
-                            Quality Assurance Intern
+                            @selectedCareerLogsModel?.Position
                         </div>
                     </div>
 
                     <div class="font-body text-center text-slate-300 text-leading-6">
-                        At Kooapps Philippines, I was tasked with manually running test cases on selected applications,
-                        reporting and documenting defects found across testing, and researching new ideas and tools to
-                        enhance QA workflow.
-                    </div>
-                    <div class="font-body text-center text-slate-300 text-leading-6">
-                        At Kooapps Philippines, I was tasked with manually running test cases on selected applications,
-                        reporting and documenting defects found across testing, and researching new ideas and tools to
-                        enhance QA workflow.
+                        @foreach (var description in selectedCareerLogsModel?.DescriptionParagraphs)
+                        {
+                            <div>@description</div>
+                        }
                     </div>
 
                     <div class="font-heading font-bold underline underline-offset-3 decoration-1 decoration-slate-300">
@@ -718,44 +622,40 @@
                     </div>
 
                     <div class="font-body text-slate-300 text-leading-6">
-                           
-                        <div class="text-center">
-                            > Logged over 150 defects
-                        </div>
-                        <div class="text-center">
-                            > Researched a new QA tool
-                        </div>
-                        <div class="text-center">
-                            > Learned proper documentation procedures
-                        </div>
-
+                        @foreach (var achievement in selectedCareerLogsModel?.Achievements)
+                        {
+                            <div class="text-center">
+                                > @achievement
+                            </div>
+                        }
                     </div>
 
-                    <a 
-                        href="/company/kooapps/kooapps-report.pdf" target="_blank" rel="noreferrer"
-                        class="flex flex-col md:w-[350px] md:h-15 gap-3 rounded-2xl py-3 px-2 border border-blue-400
-                        hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 font-body transition-all duration-200
-                        cursor-pointer">
+                    @if (selectedCareerLogsModel.HasReport)
+                    {
+                        <a href="@selectedCareerLogsModel?.Report" target="_blank" rel="noreferrer"
+                           class="flex flex-col md:w-[350px] md:h-15 gap-3 rounded-2xl py-3 px-2 border border-blue-400
+                            hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 font-body transition-all duration-200
+                            cursor-pointer">
 
-                        <div class="flex flex-1 flex-wrap items-center justify-center gap-3">
+                            <div class="flex flex-1 flex-wrap items-center justify-center gap-3">
 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-file-text">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M14 3v4a1 1 0 0 0 1 1h4" />
-                                <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" />
-                                <path d="M9 9l1 0" />
-                                <path d="M9 13l6 0" />
-                                <path d="M9 17l6 0" />
-                            </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                     class="icon icon-tabler icons-tabler-outline icon-tabler-file-text">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                                    <path d="M17 21h-10a2 2 0 0 1 -2 -2v-14a2 2 0 0 1 2 -2h7l5 5v11a2 2 0 0 1 -2 2" />
+                                    <path d="M9 9l1 0" />
+                                    <path d="M9 13l6 0" />
+                                    <path d="M9 17l6 0" />
+                                </svg>
 
-                            <div>View internship report</div>
+                                <div>View internship report</div>
 
-                        </div>
+                            </div>
 
-                    </a>
-
+                        </a>
+                    }
                 </div>
                 
             </div>
@@ -764,134 +664,129 @@
 
         <p class="font-heading text-sm text-center text-blue-400 tracking-[0.3em] px-2"> > Career Acknowledgements</p>
 
-        <div class="flex flex-col mx-auto md:w-3xl lg:w-5xl rounded-2xl gap-8 border border-blue-400">
+        <div class="flex flex-col mx-auto md:w-3xl lg:w-5xl rounded-2xl gap-8 border border-blue-400 p-3">
             
             <div class="flex justify-center pt-3">
-
                 <div class="flex justify-center px-3 border border-blue-400 rounded-2xl gap-16 py-2 px-6 md:px-12">
+                    @foreach (var acknowledgementType in acknowledgementTypesModels)
+                    {
+                        <div class="text-center rounded-2xl hover:text-white
+                            hover:shadow-lg cursor-pointer transition-all duration-200 hover:border-white hover:-translate-y-1 "
+                             @onclick="() => SwitchSelectedAcknowledgementType(acknowledgementType.AcknowledgementType)">
 
-                    <div class="text-center rounded-2xl hover:text-white
-                        hover:shadow-lg cursor-pointer transition-all duration-200 hover:border-white hover:-translate-y-1 "
-                         @onclick="async () => await SwitchSelectedProjectYear(1)">
-
-                        <div class="underline underline-offset-3 decoration-1 decoration-slate-300">
-                            Certificates
+                            @if (acknowledgementType.AcknowledgementType == selectedAcknowledgementTypeModel?.AcknowledgementType)
+                            {
+                                <div class="underline underline-offset-3 decoration-1 decoration-slate-300">
+                                    @acknowledgementType.AcknowledgementName
+                                </div>
+                            }
+                            else
+                            {
+                                <div>
+                                    @acknowledgementType.AcknowledgementName
+                                </div>
+                            }
                         </div>
-
-                    </div>
-                    <div class="text-center rounded-2xl hover:text-white
-                        hover:shadow-lg cursor-pointer transition-all duration-200 hover:border-white hover:-translate-y-1 "
-                         @onclick="async () => await SwitchSelectedProjectYear(1)">
-
-                        <div class="underline underline-offset-3 decoration-1 decoration-slate-300">
-                            Skill Badges
-                        </div>
-
-                    </div>
-
+                    }
                 </div>
-
             </div>
 
-            <div class="flex flex-col flex-1 max-h-100 p-3 gap-3 overflow-y-auto">
-
-                <div class="text-center text-2xl underline underline-offset-3 font-bold py-6">
-                    COMPTIA
-                </div>
-
-                <div class="flex flex-col md:flex-row flex-wrap items-center justify-center text-slate-300 text-center gap-8 p-3">
-
-                    <a href="https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url" rel="noreferrer" target="_blank"
-                        class="flex flex-col w-44 items-center justify-center text-leading-6
-                        rounded-2xl py-3 px-2 border border-blue-400
-                        hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] 
-                        hover:-translate-y-1 font-body transition-all duration-200 cursor-pointer">
-                        <img class="max-w-28 object-cover" 
-                        src="/acknowledgements/certificates/comptia/comptia-techplus-certificate.png"/>
-                        <div class="font-body font-semibold tracking-wide">
-                            Comptia Tech+
-                        </div>
-                        <div class="text-sm">
-                            Issued: December 12, 2025
-                        </div>
-                        <div class="flex gap-2 items-center justify-center pt-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-link">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 15l6 -6" />
-                                <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
-                                <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
-                            </svg>
-                            <div class="text-sm">
-                                Verify
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url" rel="noreferrer" target="_blank"
-                        class="flex flex-col w-44 items-center justify-center text-leading-6
-                        rounded-2xl py-3 px-2 border border-blue-400
-                        hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] 
-                        hover:-translate-y-1 font-body transition-all duration-200 cursor-pointer">
-                        <img class="max-w-28 object-cover" 
-                        src="/acknowledgements/certificates/comptia/comptia-techplus-certificate.png"/>
-                        <div class="font-body font-semibold tracking-wide">
-                            Comptia Tech+
-                        </div>
-                        <div class="text-sm">
-                            Issued: December 12, 2025
-                        </div>
-                        <div class="flex gap-2 items-center justify-center pt-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-link">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 15l6 -6" />
-                                <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
-                                <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
-                            </svg>
-                            <div class="text-sm">
-                                Verify
-                            </div>
-                        </div>
-                    </a>
-                    <a href="https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url" rel="noreferrer" target="_blank"
-                        class="flex flex-col w-44 items-center justify-center text-leading-6
-                        rounded-2xl py-3 px-2 border border-blue-400
-                        hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] 
-                        hover:-translate-y-1 font-body transition-all duration-200 cursor-pointer">
-                        <img class="max-w-28 object-cover" 
-                        src="/acknowledgements/certificates/comptia/comptia-techplus-certificate.png"/>
-                        <div class="font-body font-semibold tracking-wide">
-                            Comptia Tech+
-                        </div>
-                        <div class="text-sm">
-                            Issued: December 12, 2025
-                        </div>
-                        <div class="flex gap-2 items-center justify-center pt-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-link">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M9 15l6 -6" />
-                                <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
-                                <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
-                            </svg>
-                            <div class="text-sm">
-                                Verify
-                            </div>
-                        </div>
-                    </a>
-                    
-
-                </div>
-                
-
-                <div class="text-center text-2xl underline underline-offset-3 font-bold py-6">
-                    COMPTIA
-                </div>
-                <div class="text-center text-2xl underline underline-offset-3 font-bold py-6">
-                    COMPTIA
-                </div>
+            <div class="flex flex-col flex-1 max-h-100 p-3 gap-3 overflow-y-auto scroll-smooth scrollbar-thumb-blue-400">
 
                 <script type="text/javascript" async src="//cdn.credly.com/assets/utilities/embed.js"></script>
+
+                @if (selectedAcknowledgementTypeModel?.AcknowledgementType == AcknowledgementTypes.Certificates)
+                {
+                    @foreach (var issuer in certificateIssuerModels)
+                    {
+                        <div class="text-center text-2xl underline underline-offset-3 font-bold py-6">
+                            @issuer.Issuer
+                        </div>
+
+                        <div class="flex flex-col md:flex-row flex-wrap items-center justify-center text-slate-300 text-center gap-8 p-3">
+                            
+                            @foreach (var data in issuer.Certificates)
+                            {
+                                var source = data.HasSource ? data.Source : "/";
+
+                                <a href="@source" rel="noreferrer" target="_blank"
+                                   class="flex flex-col w-44 items-center justify-center text-leading-6
+                                    rounded-2xl py-3 px-2 border border-blue-400
+                                    hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)]
+                                    hover:-translate-y-1 font-body transition-all duration-200 cursor-pointer">
+                                    <img class="max-w-28 object-cover"
+                                         src="/acknowledgements/certificates/comptia/comptia-techplus-certificate.png" />
+                                    <div class="font-body font-semibold tracking-wide">
+                                        @data.CertificateName
+                                    </div>
+                                    <div class="text-sm">
+                                        @data.DateIssued.ToString("MMMM dd, yyyy")
+                                    </div>
+                                    <div class="flex gap-2 items-center justify-center pt-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="icon icon-tabler icons-tabler-outline icon-tabler-link">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 15l6 -6" />
+                                            <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
+                                            <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
+                                        </svg>
+                                        <div class="text-sm">
+                                            Verify
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+
+                        </div>
+                    }
+                }
+                else if (selectedAcknowledgementTypeModel?.AcknowledgementType == AcknowledgementTypes.SkillBadges)
+                {
+                    @foreach (var issuer in skillBadgeIssuerModels)
+                    {
+                        <div class="text-center text-2xl underline underline-offset-3 font-bold py-6">
+                            @issuer.Issuer
+                        </div>
+
+                        <div class="flex flex-col md:flex-row flex-wrap items-center justify-center text-slate-300 text-center gap-8 p-3">
+
+                            @foreach (var data in issuer.SkillBadges)
+                            {
+                                var source = data.HasSource ? data.Source : "/";
+
+                                <a href="@source" rel="noreferrer" target="_blank"
+                                   class="flex flex-col w-44 items-center justify-center text-leading-6
+                                                rounded-2xl py-3 px-2 border border-blue-400
+                                                hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)]
+                                                hover:-translate-y-1 font-body transition-all duration-200 cursor-pointer">
+                                    <img class="max-w-28 object-cover"
+                                         src="/acknowledgements/certificates/comptia/comptia-techplus-certificate.png" />
+                                    <div class="font-body font-semibold tracking-wide">
+                                        @data.SkillBadgeName
+                                    </div>
+                                    <div class="text-sm">
+                                        @data.DateIssued.ToString("MMMM dd, yyyy")
+                                    </div>
+                                    <div class="flex gap-2 items-center justify-center pt-3">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                             class="icon icon-tabler icons-tabler-outline icon-tabler-link">
+                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                            <path d="M9 15l6 -6" />
+                                            <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
+                                            <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
+                                        </svg>
+                                        <div class="text-sm">
+                                            Verify
+                                        </div>
+                                    </div>
+                                </a>
+                            }
+
+                        </div>
+                    }
+                }
 
             </div>
 
@@ -915,92 +810,83 @@
             <h1 class="inline-block font-heading text-5xl sm:text-6xl md:text-7xl uppercase">Contact</h1>
 
             <p class="font-body text-2xl text-slate-300 py-3">
-                Ready for the next quest.
-                <br />
-                Let's build something great together.
+                @foreach (var text in contactModel?.MainDescriptionParagraphs)
+                {
+                    <div>
+                        @text
+                    </div>
+                }
             </p>
 
             <div class="max-w-3xl mx-auto text-center font-body text-slate-300 text-lg space-y-3 leading-6">
 
                 <div>
-                    Reach me through any of the channels below:
+                    @foreach (var text in contactModel?.SubDescriptionParagraphs)
+                    {
+                        <div>
+                            @text
+                        </div>
+                    }
                 </div>
                 
                 <div class="flex flex-col md:flex-row flex-wrap justify-center gap-8 max-w-4xl mx-auto pt-2 px-3 font-body text-slate-300">
+                    @foreach (var channel in contactModel?.ContactChannels)
+                    {
+                        <a 
+                            href="@channel.ChannelLink"
+                           class="flex flex-col md:w-[350px] md:h-15 gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto
+                            hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 font-body transition-all duration-200 text-slate-300
+                            cursor-pointer">
 
-                    <a 
-                        href="mailto:renz.malabanan1816@gmail.com"
-                       class="flex flex-col md:w-[350px] md:h-15 gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto
-                        hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 font-body transition-all duration-200 text-slate-300
-                        cursor-pointer">
+                            <div class="flex flex-1 flex-wrap items-center justify-center gap-3">
 
-                        <div class="flex flex-1 flex-wrap items-center justify-center gap-3">
+                                @if (channel.SVGType == SVGTypes.Email)
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-mail">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" />
+                                        <path d="M3 7l9 6l9 -6" />
+                                    </svg>
+                                }
+                                else if (channel.SVGType == SVGTypes.LinkedIn)
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M8 11v5" />
+                                        <path d="M8 8v.01" />
+                                        <path d="M12 16v-5" />
+                                        <path d="M16 16v-3a2 2 0 1 0 -4 0" />
+                                        <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" />
+                                    </svg>
+                                }
+                                else if (channel.SVGType == SVGTypes.Github)
+                                {
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                                         class="icon icon-tabler icons-tabler-outline icon-tabler-brand-github">
+                                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                        <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+                                    </svg>
+                                }
 
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-mail">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10" />
-                                <path d="M3 7l9 6l9 -6" />
-                            </svg>
+                                <div>@channel.ChannelName</div>
 
-                            <div>Email</div>
+                            </div>
 
-                        </div>
-
-                    </a>
-                     <a 
-                        href="https://www.linkedin.com/in/renz-malabanan" target="_blank" rel="noopener noreferrer"
-                        class="flex flex-col md:w-[350px] md:h-15 gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto
-                        hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 font-body transition-all duration-200 text-slate-300
-                        cursor-pointer">
-
-                        <div class="flex flex-1 flex-wrap items-center justify-center gap-3 cursor-pointer">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                 class="icon icon-tabler icons-tabler-outline icon-tabler-brand-linkedin">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M8 11v5" />
-                                <path d="M8 8v.01" />
-                                <path d="M12 16v-5" />
-                                <path d="M16 16v-3a2 2 0 1 0 -4 0" />
-                                <path d="M3 7a4 4 0 0 1 4 -4h10a4 4 0 0 1 4 4v10a4 4 0 0 1 -4 4h-10a4 4 0 0 1 -4 -4l0 -10" />
-                            </svg>
-
-                            <div>LinkedIn</div>
-
-                        </div>
-
-                    </a>
-                    <a 
-                        href="https://github.com/Lithosfear23" target="_blank" rel="noopener noreferrer"
-                        class="flex flex-col md:w-[350px] md:h-15 gap-3 rounded-2xl py-3 px-2 border border-blue-400 overflow-y-auto
-                        hover:border-cyan-300 hover:shadow-[0_0_18px_rgba(59,130,246,0.35)] hover:-translate-y-1 font-body transition-all duration-200 text-slate-300
-                        cursor-pointer">
-
-                        <div class="flex flex-1 flex-wrap items-center justify-center gap-3 cursor-pointer">
-
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                class="icon icon-tabler icons-tabler-outline icon-tabler-brand-github">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-                            </svg>
-
-                            <div>Github</div>
-
-                        </div>
-
-                    </a>
-
+                        </a>
+                    }
                 </div>
 
                 <div class="pt-3">
-                    Currently based in the Philippines.
+                    @contactModel.LocationText
                 </div>
+
                 <div>
-                    Open to entry-level software engineering opportunities.
+                    @contactModel.OpenJobText
                 </div>
 
             </div>
@@ -1093,13 +979,26 @@
 
 @code {
     //Models
-    private List<ProjectYears> projectYears = new();
+    private HeroModel? heroModel;
+    private AboutModel? aboutModel;
     private ProjectsModel? selectedProjectModel;
+    private ProjectsModel? capstoneProjectModel;
+    private ProjectMedia? selectedCapstoneProjectMedia;
     private ProjectMedia? selectedProjectMedia;
     private ProjectMedia? selectedGalleryProjectMedia;
+    private CareerLogsModel? selectedCareerLogsModel;
+    private AcknowledgementTypeModel? selectedAcknowledgementTypeModel;
+    private ContactModel? contactModel;
 
     //Dictionaries
     private Dictionary<int, List<ProjectsModel>> projectsModels = new();
+    private Dictionary<int, CareerLogsModel> careerLogsModels = new();
+
+    //Lists
+    private List<ProjectYears> projectYears = new();
+    private List<AcknowledgementTypeModel> acknowledgementTypesModels = new();
+    private List<CertificateIssuerModel> certificateIssuerModels = new();
+    private List<SkillBadgeIssuerModel> skillBadgeIssuerModels = new();
 
     //Strings
     private string projectSelectedYear = "";
@@ -1108,6 +1007,7 @@
     private int selectedYear = 0;
     private int projectModelIndex = 0;
     private int projectMediaIndex = 0;
+    private int capstoneProjectMediaIndex = 0;
     private int displayedMedia = 0;
 
     //Const
@@ -1116,14 +1016,27 @@
     //Bool
     private bool isSelectedProjectYear = false;
     private bool isVideoSelected = true;
+    private bool isCapstoneVideoSelected = true;
     private bool isGalleryOpened = false;
+
+    protected override void OnInitialized()
+    {
+        PopulateHero();
+        PopulateAbout();
+        PopulateMainProject();
+        PopulateCareerLogs();
+        PopulateAcknowledgementTypes();
+        PopulateCertificates();
+        PopulateSkillBadges();
+        PopulateContact();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            PopulateYearStore();
-            PopulateProjectStore();
+            PopulateYears();
+            PopulateSideProjects();
 
             var width = await JS.InvokeAsync<int>("GetWindowSize");
 
@@ -1133,16 +1046,89 @@
         }
     }
 
-    private async Task SwitchSelectedProjectYear(int year)
+    private void PopulateHero()
     {
-        selectedYear = year;
-
-        await SwitchSelectedProject(selectedYear, SlideDirections.None);
-
-        await InvokeAsync(StateHasChanged);
+        heroModel = new HeroModel
+        (
+            heroName: "Renz Malabanan",
+            heroTitle: "Full-Stack .NET Developer",
+            heroDescription: "Building modern web applications, IoT Systems, and Interactive Experience",
+            heroImage: "/hero/hero-malabanan.png"
+        );
     }
 
-    private void PopulateYearStore()
+    private void PopulateAbout()
+    {
+        aboutModel = new AboutModel
+        (
+            descriptionParagraphs: new List<string>
+            {
+                "I am a fourth-year Information Technology student specializing in the Internet of Things (IoT), " +
+                "with a passion for building modern web applications and connected systems.",
+                "I enjoy exploring game mechanics, understanding how systems work under the hood, and developing " +
+                "applications that combine functionality with an intuitive user experience."
+            },
+            skills: new List<string>
+            {
+                "C#", "Kotlin", "PHP", "Tailwind", "SQL", ".NET Blazor", "RESTful API", "IoT"
+            }
+        );
+    }
+
+    private void PopulateMainProject()
+    {
+        DateTime date;
+
+        capstoneProjectModel = new ProjectsModel
+        {
+            Date = DateTime.TryParseExact("07-26", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+            ProjectName = "PlanterAid",
+            ProjectStatus = "Complete",
+            TechStack = new List<string>
+            {
+                "Blazor .NET Core 8.0", "C#", "RESTful API", "MySQL", "Semaphore", "Leaflet.JS", "Chart.JS",
+                "Bootstrap", "JavaScript", "IoT Sensors", "DFRobot", "Sparkfun", "Sensirion", "U-blox",
+                "Lolin WeMos"
+            },
+            Medias = new List<ProjectMedia>
+            {
+                new (key: 0, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-gameplay-demo.mp4", type: FileTypes.MP4, isVideo: true),
+                new (key: 1, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-1.png", type: FileTypes.PNG),
+                new (key: 2, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-2.png", type: FileTypes.PNG),
+                new (key: 3, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-3.png", type: FileTypes.PNG),
+                new (key: 4, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-4.png", type: FileTypes.PNG),
+                new (key: 5, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-5.png", type: FileTypes.PNG),
+                new (key: 6, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-thumb-6.png", type: FileTypes.PNG),
+                new (key: 7, source: "/projects/year-1/4-pics-1-word/4-pics-1-word-video-thumb.png", type: FileTypes.PNG, isVideo: true),
+            },
+            Description = """"
+                Developed an IoT-integrated, full-stack web application that enables multi-zone agricultural monitoring through
+                distributed sensor nodes. The system aggregates environmental data, visualizes near real-time and historical
+                readings, tracks sensor locations using GPS, delivers literature-based recommendations, and sends SMS alerts
+                to support informed decision-making for pineapple crop production.
+                """",
+            FeaturesList = new List<string>
+            {
+                "Multi-zone farm monitoring",
+                "Near real-time dashboard",
+                "Historical sensor analytics",
+                "Literature-based recommendations",
+                "SMS alert notifications",
+                "Interactive charts & reports",
+                "PDF report generation",
+                "Secure user authentication",
+                "Responsive web interface"
+            },
+            Credits = """"
+                Sound effects by Pixabay, background music by Chillpeach, with selected logo and image assets from Frank Cone, Daniel Nettesheim, Brett Sayles, and Google.
+                """"
+        };
+
+        SwitchCapstoneMedia(capstoneProjectModel.Medias.Select(t => t.Key).FirstOrDefault());
+    }
+
+    private void PopulateYears()
     {
         for (int i = 1; i < 5; i++)
         {
@@ -1157,7 +1143,7 @@
         selectedYear = projectYears.Select(t => t.Year).FirstOrDefault();
     }
 
-    private void PopulateProjectStore()
+    private void PopulateSideProjects()
     {
         DateTime date;
         List<ProjectsModel> yearOneProjectModels = new List<ProjectsModel>
@@ -1265,6 +1251,321 @@
         */
     }
 
+    private void PopulateCareerLogs()
+    {
+        DateTime date;
+
+        var kooAppsCareer = new CareerLogsModel
+        (
+            key: 0,
+            startDate: DateTime.TryParseExact("04-26", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+            endDate: DateTime.TryParseExact("07-26", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+            company: "Kooapps Philippines Corporation",
+            position: "Quality Assurance Intern",
+            descriptionParagraphs: new List<string>
+            {
+                "At Kooapps Philippines, I was tasked with manually running test cases on selected applications, " +
+                "reporting and documenting defects found across testing, and researching new ideas and tools to " +
+                "enhance QA workflow."
+            },
+            achievements: new List<string>
+            {
+                "Logged over 150 defects", "Researched a new QA tool", "Learned proper documentation procedures"
+            },
+            logo: "/company/kooapps/kooapps-logo.png",
+            report: "/company/kooapps/kooapps-report.png",
+            hasReport: true
+        );
+
+        var kooAppsCareer1 = new CareerLogsModel
+        (
+            key: 1,
+            startDate: DateTime.TryParseExact("02-26", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+            endDate: DateTime.TryParseExact("03-26", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+            company: "Kooapps Philippines Corporation 1",
+            position: "Quality Assurance Intern",
+            descriptionParagraphs: new List<string>
+            {
+                "At Kooapps Philippines, I was tasked with manually running test cases on selected applications, " +
+                "reporting and documenting defects found across testing, and researching new ideas and tools to " +
+                "enhance QA workflow."
+            },
+            achievements: new List<string>
+            {
+                "Logged over 150 defects", "Researched a new QA tool", "Learned proper documentation procedures"
+            },
+            logo: "/company/kooapps/kooapps-logo.png",
+            report: "/company/kooapps/kooapps-report.png",
+            hasReport: true
+        );
+
+        var kooAppsCareer2 = new CareerLogsModel
+        (
+            key: 2,
+            startDate: DateTime.TryParseExact("12-25", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+            endDate: DateTime.TryParseExact("01-26", "MM-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+            company: "Kooapps Philippines Corporation 2",
+            position: "Quality Assurance Intern",
+            descriptionParagraphs: new List<string>
+            {
+                "At Kooapps Philippines, I was tasked with manually running test cases on selected applications, " +
+                "reporting and documenting defects found across testing, and researching new ideas and tools to " +
+                "enhance QA workflow."
+            },
+            achievements: new List<string>
+            {
+                "Logged over 150 defects", "Researched a new QA tool", "Learned proper documentation procedures"
+            },
+            logo: "/company/kooapps/kooapps-logo.png",
+            report: "/company/kooapps/kooapps-report.png",
+            hasReport: true
+        );
+
+        careerLogsModels = new Dictionary<int, CareerLogsModel>
+        {
+            {
+                kooAppsCareer.Key, kooAppsCareer
+            },
+            {
+                kooAppsCareer1.Key, kooAppsCareer1
+            },
+            {
+                kooAppsCareer2.Key, kooAppsCareer2
+            }
+        };
+
+        var firstModel = careerLogsModels.Values.OrderByDescending(t => t.EndDate).FirstOrDefault();
+
+        SwitchSelectedCareer(firstModel.Key);
+    }
+
+    private void PopulateAcknowledgementTypes()
+    {
+        acknowledgementTypesModels = new List<AcknowledgementTypeModel>
+        {
+            new AcknowledgementTypeModel
+            (
+                acknowledgementType: AcknowledgementTypes.Certificates,
+                acknowledgementName: "Certificates"
+            ),
+            new AcknowledgementTypeModel
+            (
+                acknowledgementType: AcknowledgementTypes.SkillBadges,
+                acknowledgementName: "Skill Badges"
+            )
+        };
+
+        SwitchSelectedAcknowledgementType(AcknowledgementTypes.Certificates);
+    }
+
+    private void PopulateCertificates()
+    {
+        DateTime date;
+
+        var comptiaList = new List<CertificateModel>
+        {
+            new CertificateModel
+            (
+                certificateName: "COMPTIA Tech+",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            ),
+            new CertificateModel
+            (
+                certificateName: "COMPTIA Tech+ 1",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            ),
+            new CertificateModel
+            (
+                certificateName: "COMPTIA Tech+ 2",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            )
+        };
+
+        var googleList = new List<CertificateModel>
+        {
+            new CertificateModel
+            (
+                certificateName: "Google Cloud Tech+",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            ),
+            new CertificateModel
+            (
+                certificateName: "Google Cloud Tech+ 1",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            ),
+            new CertificateModel
+            (
+                certificateName: "Google Cloud Tech+ 2",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            )
+        };
+
+        var comptiaIssuerModel = new CertificateIssuerModel
+        (
+            issuer: "COMPTIA",
+            certificates: comptiaList
+        );
+        var googleIssuerModel = new CertificateIssuerModel
+        (
+            issuer: "Google",
+            certificates: googleList
+        );
+
+        certificateIssuerModels = new List<CertificateIssuerModel>
+        {
+            comptiaIssuerModel, googleIssuerModel
+        };
+    }
+
+    private void PopulateSkillBadges()
+    {
+        DateTime date;
+
+        var comptiaList = new List<SkillBadgeModel>
+        {
+            new SkillBadgeModel
+            (
+                skillBadgeName: "COMPTIA Tech+",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            ),
+            new SkillBadgeModel
+            (
+                skillBadgeName: "COMPTIA Tech+ 1",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            ),
+            new SkillBadgeModel
+            (
+                skillBadgeName: "COMPTIA Tech+ 2",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            )
+        };
+
+        var googleList = new List<SkillBadgeModel>
+        {
+            new SkillBadgeModel
+            (
+                skillBadgeName: "Google Cloud Tech+",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            ),
+            new SkillBadgeModel
+            (
+                skillBadgeName: "Google Cloud Tech+ 1",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            ),
+            new SkillBadgeModel
+            (
+                skillBadgeName: "Google Cloud Tech+ 2",
+                dateIssued: DateTime.TryParseExact("12-12-25", "MM-dd-yy", CultureInfo.InvariantCulture, DateTimeStyles.None,
+                out date) ? date : DateTime.Today,
+                source: "https://www.credly.com/badges/d64a1103-c95a-46a6-8e3d-96ce84758a75/public_url",
+                hasSource: true
+            )
+        };
+
+        var comptiaIssuerModel = new SkillBadgeIssuerModel
+        (
+            issuer: "COMPTIA",
+            certificates: comptiaList
+        );
+        var googleIssuerModel = new SkillBadgeIssuerModel
+        (
+            issuer: "Google",
+            certificates: googleList
+        );
+
+        skillBadgeIssuerModels = new List<SkillBadgeIssuerModel>
+        {
+            comptiaIssuerModel, googleIssuerModel
+        };
+    }
+
+    private void PopulateContact()
+    {
+        contactModel = new ContactModel
+        (
+            mainDescriptionParagraphs: new List<string>
+            {
+                "Ready for the next quest.",
+                "Let's build something great together."
+            },
+            subDescriptionParagraphs: new List<string>
+            {
+                "Reach me through any of the channels below:"
+            },
+            contactChannels: new List<ContactChannelModel>
+            {
+                new ContactChannelModel
+                (
+                    channelName: "Email",
+                    channelLink: "mailto:renz.malabanan1816@gmail.com",
+                    sVGType: SVGTypes.Email
+                ),
+                new ContactChannelModel
+                (
+                    channelName: "LinkedIn",
+                    channelLink: "https://www.linkedin.com/in/renz-malabanan",
+                    sVGType: SVGTypes.LinkedIn
+                ),
+                new ContactChannelModel
+                (
+                    channelName: "Github",
+                    channelLink: "https://github.com/Lithosfear23",
+                    sVGType: SVGTypes.Github
+                )
+            },
+            locationText: "Currently based in the Philippines.",
+            openJobText: "Open to entry-level software engineering opportunities."
+        );
+    }
+
+    private async Task SwitchSelectedProjectYear(int year)
+    {
+        selectedYear = year;
+
+        await SwitchSelectedProject(selectedYear, SlideDirections.None);
+
+        await InvokeAsync(StateHasChanged);
+    }
+
     public async Task SwitchSelectedProject(int year, SlideDirections direction)
     {
         if (projectsModels.TryGetValue(year, out var model))
@@ -1291,6 +1592,19 @@
         }
     }
 
+    private void SwitchCapstoneMedia(int key)
+    {
+        if (capstoneProjectModel != null)
+        {
+            selectedCapstoneProjectMedia = capstoneProjectModel.Medias.FirstOrDefault(t => t.Key == key);
+
+            if (selectedCapstoneProjectMedia.IsVideo && selectedCapstoneProjectMedia.Type == FileTypes.PNG)
+                selectedCapstoneProjectMedia = capstoneProjectModel.Medias.FirstOrDefault();
+
+            isCapstoneVideoSelected = selectedCapstoneProjectMedia.IsVideo;
+        }
+    }
+
     public void SwitchSelectedMedia(int key)
     {
         if (selectedProjectModel != null)
@@ -1309,6 +1623,20 @@
                 selectedGalleryProjectMedia = selectedProjectModel.Medias.FirstOrDefault(t => t.Key == key);
             }
         }
+    }
+
+    private void SwitchSelectedCareer(int key)
+    {
+        if (careerLogsModels.TryGetValue(key, out var careerLogsModel))
+        {
+            selectedCareerLogsModel = careerLogsModel;
+        }
+    }
+
+    private void SwitchSelectedAcknowledgementType(AcknowledgementTypes acknowledgementType)
+    {
+        selectedAcknowledgementTypeModel = acknowledgementTypesModels
+            .FirstOrDefault(t => t.AcknowledgementType == acknowledgementType);
     }
 
     public void ToggleGalleryView(bool state, int key = 0)
